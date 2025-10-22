@@ -4,7 +4,6 @@ import { auth } from "@clerk/nextjs/server";
 import { weaponSkins } from "~/server/db/schema";
 import { db } from "~/server/db";
 
-// ✅ GET all weapon skins for the current user
 export async function GET() {
   const { userId } = await auth();
 
@@ -28,7 +27,6 @@ export async function GET() {
   }
 }
 
-// ✅ POST — create new weapon skin (with price)
 export async function POST(req: Request) {
   const { userId } = await auth();
 
@@ -65,7 +63,7 @@ export async function POST(req: Request) {
         weaponType,
         weaponName,
         apiKey,
-        price: Number(price) || 0, // ✅ Default to 0 if not provided
+        price: Number(price) || 0, 
       })
       .returning();
 

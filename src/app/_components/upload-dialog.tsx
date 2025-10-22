@@ -35,7 +35,7 @@ export function UploadDialog({ onUploadComplete }: UploadDialogProps) {
   const [description, setDescription] = useState("");
   const [weaponType, setWeaponType] = useState("");
   const [weaponName, setWeaponName] = useState("");
-  const [price, setPrice] = useState(""); // ✅ use string so user can freely type
+  const [price, setPrice] = useState(""); 
   const [weaponTypes, setWeaponTypes] = useState<string[]>([]);
   const [weaponNames, setWeaponNames] = useState<string[]>([]);
 
@@ -66,7 +66,6 @@ export function UploadDialog({ onUploadComplete }: UploadDialogProps) {
 
         <Card className="w-full bg-[#1a2632] text-white border border-[#2b3a4a] shadow-md">
           <CardContent className="space-y-4 mt-4">
-            {/* Description Input */}
             <div>
               <label
                 htmlFor="skin-description"
@@ -83,7 +82,6 @@ export function UploadDialog({ onUploadComplete }: UploadDialogProps) {
               />
             </div>
 
-            {/* Price Input */}
             <div>
               <label
                 htmlFor="price-input"
@@ -93,15 +91,14 @@ export function UploadDialog({ onUploadComplete }: UploadDialogProps) {
               </label>
               <Input
                 id="price-input"
-                type="text" // ✅ allow full typing freedom
+                type="text" 
                 value={price}
-                onChange={(e) => setPrice(e.target.value)} // ✅ keep as string
+                onChange={(e) => setPrice(e.target.value)} 
                 placeholder="Enter skin price..."
                 className="bg-[#0f1923] text-white border-gray-700 focus-visible:ring-[#ff4655]"
               />
             </div>
 
-            {/* Weapon Name Dropdown */}
             <div>
               <label
                 htmlFor="weapon-name-select"
@@ -126,7 +123,6 @@ export function UploadDialog({ onUploadComplete }: UploadDialogProps) {
               </select>
             </div>
 
-            {/* Weapon Type Dropdown */}
             <div>
               <label
                 htmlFor="weapon-type-select"
@@ -151,7 +147,6 @@ export function UploadDialog({ onUploadComplete }: UploadDialogProps) {
               </select>
             </div>
 
-            {/* Upload Button */}
             <div className="mt-4">
               <UploadButton
                 endpoint="imageUploader"
@@ -159,7 +154,7 @@ export function UploadDialog({ onUploadComplete }: UploadDialogProps) {
                   description,
                   weaponType,
                   weaponName,
-                  price: Number(price) || 0, // ✅ convert only on upload
+                  price: Number(price) || 0, 
                 }}
                 appearance={{
                   button:

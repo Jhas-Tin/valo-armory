@@ -13,11 +13,9 @@ export async function GET() {
           );
           controller.enqueue(`data: ${JSON.stringify(active)}\n\n`);
         };
-
-        // Send first batch immediately
+        
         await send();
 
-        // Refresh every 5 seconds
         const interval = setInterval(send, 5000);
 
         return () => clearInterval(interval);

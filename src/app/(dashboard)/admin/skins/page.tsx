@@ -24,14 +24,12 @@ export default function WeaponsPage() {
   >([]);
   const [loading, setLoading] = useState(true);
 
-  // Redirect unauthenticated users
   useEffect(() => {
     if (isLoaded && !isSignedIn) {
       router.replace("/");
     }
   }, [isLoaded, isSignedIn, router]);
 
-  // Fetch uploaded weapon skins
   const fetchSkins = async () => {
     setLoading(true);
     try {
@@ -54,7 +52,6 @@ export default function WeaponsPage() {
     fetchSkins();
   };
 
-  // Helper to mask API key
   const maskApiKey = (key?: string) => {
     if (!key) return "N/A";
     const visiblePart = key.slice(-4);
@@ -71,20 +68,16 @@ export default function WeaponsPage() {
 
       <SignedIn>
         <div className="flex w-full h-screen">
-          {/* Sidebar */}
           <div className="w-1/5 min-w-[200px] max-w-[300px] bg-[#0f1923]">
             <Sidebar />
           </div>
 
-          {/* Main Content */}
           <div className="w-4/5 flex-1 overflow-auto bg-[#0f1923] p-8">
-            {/* Header Section */}
             <div className="flex justify-between items-center mb-8">
               <h1 className="text-3xl font-bold">Admin Weapon Skins</h1>
               <UploadDialog onUploadComplete={handleUploadComplete} />
             </div>
 
-            {/* Table Section */}
             <div className="bg-[#1a2734] rounded-xl shadow-lg overflow-x-auto">
               <table className="min-w-full text-left text-gray-200 border-collapse">
                 <thead className="bg-[#18222e] text-gray-400 uppercase text-sm">

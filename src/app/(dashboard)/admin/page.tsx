@@ -12,7 +12,7 @@ type WeaponSkin = {
   weaponType: string;
   apiKey: string;
   status: string;
-  price?: number; // ✅ Added price support
+  price?: number; 
   imageUrl?: string;
   description?: string | null;
   createdAt: string;
@@ -27,12 +27,10 @@ export default function AdminPage() {
   const [searchTerm, setSearchTerm] = useState("");
   const [loading, setLoading] = useState(true);
 
-  // Redirect unauthenticated users
   useEffect(() => {
     if (isLoaded && !isSignedIn) router.replace("/");
   }, [isLoaded, isSignedIn, router]);
 
-  // Fetch weapon skins
   const fetchApiKeys = async () => {
     try {
       const res = await fetch("/api/weapon-skins", { cache: "no-store" });
@@ -51,7 +49,6 @@ export default function AdminPage() {
     fetchApiKeys();
   }, []);
 
-  // Search
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value.toLowerCase();
     setSearchTerm(value);
@@ -64,13 +61,11 @@ export default function AdminPage() {
     );
   };
 
-  // Copy
   const handleCopy = (key: string) => {
     navigator.clipboard.writeText(key);
     alert("API key copied!");
   };
 
-  // Toggle Status (auto refresh)
   const toggleStatus = async (id: number, currentStatus: string) => {
     const newStatus = currentStatus === "Active" ? "Disabled" : "Active";
     try {
@@ -106,9 +101,7 @@ export default function AdminPage() {
             Admin Dashboard
           </h1>
 
-          {/* 🔹 Two-column grid that fills the screen */}
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 flex-1">
-            {/* ✅ Left column (API + Rate Limit) */}
             <div className="flex flex-col h-full gap-6">
               <div className="bg-[#1a2632] p-6 rounded-xl shadow-lg flex-1 overflow-hidden flex flex-col">
                 <h2 className="font-semibold text-lg text-[#ff4655] mb-4">
@@ -243,7 +236,6 @@ export default function AdminPage() {
               </div>
             </div>
 
-            {/* 🛒 SHOP SECTION */}
             <div className="bg-[#1a2632] p-6 rounded-xl shadow-lg flex flex-col h-full">
               <div className="flex justify-between items-center mb-4">
                 <h2 className="font-semibold text-lg text-[#ff4655]">Shop</h2>

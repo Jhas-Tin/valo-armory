@@ -17,7 +17,6 @@ export async function GET() {
   try {
     const skins = await db.select().from(weaponSkins);
 
-    // ✅ Sanitize any null or broken entries
     const safeSkins = skins
       .filter((s) => s.weaponName && s.weaponType)
       .map((s) => ({
@@ -34,7 +33,7 @@ export async function GET() {
       status: 200,
       headers: {
         "Content-Type": "application/json",
-        "Access-Control-Allow-Origin": "*", // ✅ CORS fix
+        "Access-Control-Allow-Origin": "*", 
       },
     });
   } catch (error) {

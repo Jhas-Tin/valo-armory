@@ -13,12 +13,10 @@ export default function WeaponsPage() {
     { id: number; name: string; type: string }[]
   >([]);
 
-  // ✅ Redirect if not signed in
   useEffect(() => {
     if (isLoaded && !isSignedIn) router.replace("/");
   }, [isLoaded, isSignedIn, router]);
 
-  // ✅ Fetch weapons from DB
   useEffect(() => {
     async function fetchWeapons() {
       const res = await fetch("/api/weapons");
@@ -28,7 +26,6 @@ export default function WeaponsPage() {
     fetchWeapons();
   }, []);
 
-  // ➕ Add weapon
   async function handleAddWeapon() {
     const name = prompt("Enter weapon name:");
     const type = prompt("Enter weapon type:");
@@ -44,7 +41,6 @@ export default function WeaponsPage() {
     setWeapons((prev) => [...prev, newWeapon]);
   }
 
-  // 🗑️ Delete weapon
   async function handleDelete(id: number) {
     await fetch("/api/weapons", {
       method: "DELETE",

@@ -4,7 +4,7 @@ import { UploadThingError } from "uploadthing/server";
 import { db } from "~/server/db";
 import { weaponSkins } from "~/server/db/schema";
 import { z } from "zod";
-import crypto from "crypto"; // ✅ Import for SHA-256 key generation
+import crypto from "crypto"; 
 
 const f = createUploadthing();
 
@@ -15,17 +15,15 @@ export const ourFileRouter = {
       maxFileCount: 1,
     },
   })
-    // ✅ Include `price` in the input validation
     .input(
       z.object({
         description: z.string().optional(),
         weaponType: z.string(),
         weaponName: z.string(),
-        price: z.number().min(0), // <-- ADDED THIS
+        price: z.number().min(0), 
       })
     )
 
-    // ✅ Pass `price` through middleware
     .middleware(async ({ req, input }) => {
       const user = await auth();
       if (!user.userId) throw new UploadThingError("Unauthorized");
@@ -35,11 +33,10 @@ export const ourFileRouter = {
         description: input.description,
         weaponType: input.weaponType,
         weaponName: input.weaponName,
-        price: input.price, // <-- ADDED THIS
+        price: input.price, 
       };
     })
 
-    // ✅ Include `price` when saving to DB
     .onUploadComplete(async ({ metadata, file }) => {
       console.log("✅ Upload complete for userId:", metadata.userId);
       console.log("🖼️ File URL:", file.ufsUrl);
@@ -56,7 +53,7 @@ export const ourFileRouter = {
         weaponType: metadata.weaponType,
         weaponName: metadata.weaponName,
         description: metadata.description ?? null,
-        price: metadata.price, // ✅ save price to DB
+        price: metadata.price, 
         apiKey,
       });
 

@@ -5,6 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { UserButton } from "@clerk/nextjs";
 import { cn } from "~/lib/utils";
+import { usePathname } from "next/navigation";
 
 const navItems = [
   { label: "Dashboard", icon: Home, href: "/admin" },
@@ -13,11 +14,11 @@ const navItems = [
 ];
 
 export function Sidebar() {
+  const pathname = usePathname(); 
+
   return (
     <aside className="h-screen w-[17rem] bg-[#111b26] border-r border-gray-800 flex flex-col justify-between fixed left-0 top-0">
-      {/* 🔺 Top Section */}
       <div>
-        {/* Logo */}
         <div className="flex items-center gap-3 p-6 border-b border-gray-800">
           <Image
             src="/valooo.png"
@@ -31,24 +32,34 @@ export function Sidebar() {
           </h1>
         </div>
 
-        {/* Nav Links */}
         <nav className="mt-6 flex flex-col space-y-1">
-          {navItems.map(({ label, icon: Icon, href }) => (
-            <Link
-              key={label}
-              href={href}
-              className={cn(
-                "flex items-center gap-3 px-5 py-2 text-gray-300 hover:bg-[#1a2632] hover:text-white transition rounded-md mx-2"
-              )}
-            >
-              <Icon className="w-5 h-5 text-[#ff4655]" />
-              <span className="text-sm font-medium">{label}</span>
-            </Link>
-          ))}
+          {navItems.map(({ label, icon: Icon, href }) => {
+            const isActive = pathname === href;
+
+            return (
+              <Link
+                key={label}
+                href={href}
+                className={cn(
+                  "flex items-center gap-3 px-5 py-2 rounded-md mx-2 text-sm transition",
+                  isActive
+                    ? "bg-[#1f2a38] text-white" 
+                    : "text-gray-300 hover:bg-[#1a2632] hover:text-white"
+                )}
+              >
+                <Icon
+                  className={cn(
+                    "w-5 h-5",
+                    isActive ? "text-[#ff4655]" : "text-gray-400"
+                  )}
+                />
+                <span className="font-medium">{label}</span>
+              </Link>
+            );
+          })}
         </nav>
       </div>
 
-      {/* 🔻 Bottom User Section */}
       <div className="p-5 border-t border-gray-800 flex items-center justify-between">
         <p className="text-gray-400 text-xs font-medium">Signed in as</p>
 

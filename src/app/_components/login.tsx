@@ -5,7 +5,6 @@ export function LoginPage() {
   return (
     <div className="fixed inset-0 flex bg-[#0f1923] text-white overflow-hidden">
 
-      {/* VALORANT LOGO - Top Left */}
       <div className="absolute top-4 left-4 flex items-center gap-3 z-20">
         <Image
           src="/valooo.png"
@@ -17,10 +16,8 @@ export function LoginPage() {
         />
       </div>
 
-      {/* LEFT SIDE - Login Section (30%) */}
       <div className="relative flex flex-col justify-between items-center w-full md:w-[30%] px-6 py-8 z-10 bg-[#0f1923]/95 backdrop-blur-sm">
 
-        {/* MAIN LOGIN CONTENT */}
         <div className="flex flex-col justify-center items-center flex-grow">
           <div className="text-center space-y-3 mb-6 scale-90 md:scale-100">
             <h1 className="text-3xl md:text-4xl font-extrabold tracking-wider text-[#ff4655]">
@@ -31,7 +28,6 @@ export function LoginPage() {
             </p>
           </div>
 
-          {/* Sign In Section */}
           <div className="flex flex-col w-full max-w-xs space-y-4 scale-90 md:scale-100">
             <SignedOut>
               <SignInButton mode="redirect">
@@ -54,7 +50,6 @@ export function LoginPage() {
           </div>
         </div>
 
-        {/* FOOTER LOGO SECTION WITH HEIGHT */}
         <div className="h-24 flex flex-col items-center justify-center opacity-30 hover:opacity-100 transition-opacity">
             <div className="w-160 h-[1px] bg-[#cfcfcf] mb-3 rounded-full"></div>
           <Image
@@ -68,7 +63,6 @@ export function LoginPage() {
         </div>
       </div>
 
-      {/* RIGHT SIDE - Background Art (70%) */}
       <div className="hidden md:flex w-[70%] relative">
         <Image
           src="/valo.jpg"
