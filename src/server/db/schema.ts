@@ -48,3 +48,19 @@ export const weapons = createTable(
   }),
   // (t) => [index("name_idx").on(t.name)],
 );
+
+export const purchased = createTable(
+  "purchased",
+  (d) => ({
+    id: d.integer().primaryKey().generatedByDefaultAsIdentity(),
+    weaponId: d.integer().notNull(), // FK reference to weapon_skins.id
+    weaponName: d.varchar({ length: 256 }).notNull(),
+    imageUrl: d.varchar({ length: 512 }),
+    price: d.integer().default(0).notNull(),
+    userId: d.varchar({ length: 256 }).notNull(), // Clerk userId
+    createdAt: d
+      .timestamp({ withTimezone: true })
+      .default(sql`CURRENT_TIMESTAMP`)
+      .notNull(),
+  }),
+);
