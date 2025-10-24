@@ -1,7 +1,6 @@
 import { NextResponse } from "next/server";
 import { db } from "~/server/db";
 import { purchased } from "~/server/db/schema";
-import { currentUser } from "@clerk/nextjs/server";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -15,35 +14,29 @@ export async function OPTIONS() {
 
 export async function POST(req: Request) {
   try {
-    const user = await currentUser();
-    if (!user) {
-      return NextResponse.json(
-        { error: "Unauthorized" },
-        { status: 401, headers: corsHeaders }
-      );
-    }
-
     const body = await req.json();
-    const { weaponId, weaponName, imageUrl, price } = body;
+    const { weaponId, weaponName, imageUrl, price, userId } = body;
 
-    if (!weaponId || !weaponName) {
+    // ✅ Validation
+    if (!weaponId || !weaponName || !userId) {
       return NextResponse.json(
         { error: "Missing required fields" },
         { status: 400, headers: corsHeaders }
       );
     }
 
+    // ✅ Insert purchase record
     await db.insert(purchased).values({
       weaponId,
       weaponName,
       imageUrl,
       price: price || 0,
-      userId: user.id,
+      userId,
       createdAt: new Date(),
     });
 
     return NextResponse.json(
-      { success: true },
+      { success: true, message: "Purchase saved successfully!" },
       { status: 200, headers: corsHeaders }
     );
   } catch (error) {

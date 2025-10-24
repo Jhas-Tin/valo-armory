@@ -38,7 +38,7 @@ export default function RootLayout({
         <ClerkProvider>
           {/* <TopNav /> */}
           {children}
-          <Toaster />
+          <Toaster position="top-right" />
         </ClerkProvider>
       </body>
     </html>

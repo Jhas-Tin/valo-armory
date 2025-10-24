@@ -13,6 +13,10 @@ export default function WeaponsPage() {
     { id: number; name: string; type: string }[]
   >([]);
 
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [weaponName, setWeaponName] = useState("");
+  const [weaponType, setWeaponType] = useState("");
+
   useEffect(() => {
     if (isLoaded && !isSignedIn) router.replace("/");
   }, [isLoaded, isSignedIn, router]);
@@ -27,18 +31,22 @@ export default function WeaponsPage() {
   }, []);
 
   async function handleAddWeapon() {
-    const name = prompt("Enter weapon name:");
-    const type = prompt("Enter weapon type:");
-    if (!name || !type) return;
+    if (!weaponName || !weaponType) {
+      alert("Please fill in all fields.");
+      return;
+    }
 
     const res = await fetch("/api/weapons", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ name, type }),
+      body: JSON.stringify({ name: weaponName, type: weaponType }),
     });
 
     const newWeapon = await res.json();
     setWeapons((prev) => [...prev, newWeapon]);
+    setWeaponName("");
+    setWeaponType("");
+    setIsModalOpen(false);
   }
 
   async function handleDelete(id: number) {
@@ -51,7 +59,7 @@ export default function WeaponsPage() {
   }
 
   return (
-    <main className="min-h-screen bg-[#0f1923] text-white flex">
+    <main className="min-h-screen bg-[#0f1923] text-white flex relative">
       <SignedOut>
         <div className="h-screen flex items-center justify-center w-full text-xl">
           Redirecting to Login...
@@ -61,14 +69,14 @@ export default function WeaponsPage() {
       <SignedIn>
         <Sidebar />
 
-        <section className="flex-1 ml-64 p-8">
+        <section className="flex-1 ml-64 p-8 relative z-0">
           <div className="flex items-center justify-between mb-6">
             <h1 className="text-3xl font-bold">Admin Weapons</h1>
             <button
-              onClick={handleAddWeapon}
-              className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md text-sm font-semibold"
+              onClick={() => setIsModalOpen(true)}
+              className="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-md text-sm font-semibold transition"
             >
-              + Add weapon
+              + Add Weapon
             </button>
           </div>
 
@@ -88,7 +96,7 @@ export default function WeaponsPage() {
                       colSpan={3}
                       className="py-8 text-center text-gray-500 italic"
                     >
-                      No weapons added yet. Click “+ Add weapon” to begin.
+                      No weapons added yet. Click “+ Add Weapon” to begin.
                     </td>
                   </tr>
                 ) : (
@@ -117,6 +125,48 @@ export default function WeaponsPage() {
             </table>
           </div>
         </section>
+
+        {isModalOpen && (
+          <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 backdrop-blur-sm">
+            <div className="bg-[#1a2632] rounded-xl p-6 w-[400px] shadow-2xl border border-gray-700">
+              <h2 className="text-2xl font-bold mb-4 text-center">
+                Add New Weapon
+              </h2>
+
+              <div className="flex flex-col space-y-4">
+                <input
+                  type="text"
+                  placeholder="Weapon Name"
+                  value={weaponName}
+                  onChange={(e) => setWeaponName(e.target.value)}
+                  className="w-full px-4 py-2 bg-[#0f1923] border border-gray-600 rounded-md focus:outline-none focus:border-red-500"
+                />
+                <input
+                  type="text"
+                  placeholder="Weapon Type"
+                  value={weaponType}
+                  onChange={(e) => setWeaponType(e.target.value)}
+                  className="w-full px-4 py-2 bg-[#0f1923] border border-gray-600 rounded-md focus:outline-none focus:border-red-500"
+                />
+              </div>
+
+              <div className="flex justify-end mt-6 space-x-3">
+                <button
+                  onClick={() => setIsModalOpen(false)}
+                  className="bg-gray-700 hover:bg-gray-600 px-4 py-2 rounded-md text-sm"
+                >
+                  Cancel
+                </button>
+                <button
+                  onClick={handleAddWeapon}
+                  className="bg-red-600 hover:bg-red-700 px-4 py-2 rounded-md text-sm font-semibold"
+                >
+                  Add Weapon
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
       </SignedIn>
     </main>
   );

@@ -1,6 +1,6 @@
 "use client";
 
-import { Home, Sword, ShoppingBag } from "lucide-react";
+import { Home, Sword, ShoppingBag, Receipt } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { UserButton } from "@clerk/nextjs";
@@ -11,14 +11,16 @@ const navItems = [
   { label: "Dashboard", icon: Home, href: "/admin" },
   { label: "Weapons", icon: Sword, href: "/admin/weapons" },
   { label: "Skins", icon: ShoppingBag, href: "/admin/skins" },
+  { label: "Purchases", icon: Receipt, href: "/admin/purchases" }, // ✅ new
 ];
 
 export function Sidebar() {
-  const pathname = usePathname(); 
+  const pathname = usePathname();
 
   return (
     <aside className="h-screen w-[17rem] bg-[#111b26] border-r border-gray-800 flex flex-col justify-between fixed left-0 top-0">
       <div>
+        {/* 🔺 Logo */}
         <div className="flex items-center gap-3 p-6 border-b border-gray-800">
           <Image
             src="/valooo.png"
@@ -32,6 +34,7 @@ export function Sidebar() {
           </h1>
         </div>
 
+        {/* 🔹 Navigation */}
         <nav className="mt-6 flex flex-col space-y-1">
           {navItems.map(({ label, icon: Icon, href }) => {
             const isActive = pathname === href;
@@ -43,7 +46,7 @@ export function Sidebar() {
                 className={cn(
                   "flex items-center gap-3 px-5 py-2 rounded-md mx-2 text-sm transition",
                   isActive
-                    ? "bg-[#1f2a38] text-white" 
+                    ? "bg-[#1f2a38] text-white"
                     : "text-gray-300 hover:bg-[#1a2632] hover:text-white"
                 )}
               >
@@ -60,6 +63,7 @@ export function Sidebar() {
         </nav>
       </div>
 
+      {/* 🔻 User Button */}
       <div className="p-5 border-t border-gray-800 flex items-center justify-between">
         <p className="text-gray-400 text-xs font-medium">Signed in as</p>
 
